@@ -68,14 +68,18 @@
         <section class="content-section mb-20">
             <div class="relative w-full aspect-video fig-box overflow-hidden group select-none cursor-ew-resize" id="comparison-slider">
                 <div class="absolute inset-0">
-                <img src="dbscan_on_narrow_3lux.png" 
-                    <span class="absolute bottom-4 right-4 bg-[#f37321] text-white px-3 py-1 text-xs rounded shadow-md">DBSCAN 제안 기</span>
+                    <img src="dbscan_on_narrow_3lux.png" 
+                         class="w-full h-full object-cover" alt="Before">
                 </div>
+
+                <span id="right-label" class="absolute bottom-4 right-4 bg-[#f37321] text-white px-3 py-1 text-xs rounded shadow-md pointer-events-none z-10 transition-opacity duration-200">DBSCAN 제안 기</span>
         
                 <div class="absolute inset-0 w-1/2 overflow-hidden border-r-2 border-white shadow-2xl" id="slider-resize">
-                <img src="dbscan_off_narrow_3lux.png" 
-                    <span class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 text-xs rounded backdrop-blur-sm">기존 프레임 맵 방식</span>
+                    <img src="dbscan_off_narrow_3lux.png" 
+                         id="after-img" class="absolute inset-0 h-full object-cover max-w-none" alt="After">
                 </div>
+
+                <span id="left-label" class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 text-xs rounded backdrop-blur-sm pointer-events-none z-10 transition-opacity duration-200">기존 프레임 맵 방식</span>
         
                 <div class="absolute inset-y-0 left-1/2 w-1 bg-white flex items-center justify-center" id="slider-handle">
                     <div class="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center group-active:scale-90 transition-transform">
@@ -98,6 +102,8 @@
             const afterImg = document.getElementById('after-img');
             const handle = document.getElementById('slider-handle');
             const notice = document.getElementById('click-notice');
+            const leftLabel = document.getElementById('left-label');
+            const rightLabel = document.getElementById('right-label');
         
             let isDragging = false;
         
@@ -126,6 +132,11 @@
         
                 resizeImgContainer.style.width = `${position}%`;
                 handle.style.left = `${position}%`;
+                
+                // 라벨 opacity 조절 (슬라이더가 10% 이하면 숨김)
+                leftLabel.style.opacity = position > 10 ? '1' : '0';
+                // DBSCAN 라벨 opacity 조절 (슬라이더가 90% 이상이면 숨김)
+                rightLabel.style.opacity = position < 90 ? '1' : '0';
             };
         
             // 마우스 이벤트
