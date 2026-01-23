@@ -1,1 +1,275 @@
-d
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 기반 WB 알고리즘 개선 | 김지수 인턴</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        :root {
+            --hanwha-orange: #f37321;
+            --hanwha-orange-70: #f89b6c;
+            --hanwha-black: #000000;
+        }
+
+        body { font-family: 'Pretendard', sans-serif; line-height: 1.8; color: #1e293b; }
+        .content-section { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        /* 포인트 컬러 커스텀 */
+        .text-hanwha { color: var(--hanwha-orange); }
+        .bg-hanwha { background-color: var(--hanwha-orange); }
+        .border-hanwha { border-color: var(--hanwha-orange); }
+        
+        .highlight-accent { border-left: 4px solid var(--hanwha-orange); background-color: #fffaf7; }
+        .highlight-warning { border-left: 4px solid #64748b; background-color: #f8fafc; }
+        
+        .fig-box { border: 1px solid #e2e8f0; border-radius: 0.75rem; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }
+        
+        /* 로드맵 스카이라인 효과 */
+        .step-card { transition: transform 0.3s ease; }
+        .step-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <header class="bg-black text-white py-20 md:py-28">
+        <div class="content-section text-center max-w-5xl mx-auto px-4">
+            <p class="text-[#f37321] font-bold mb-6 tracking-[0.2em] text-xs md:text-sm uppercase opacity-90">
+                한화그룹 기계 부문 통합 핵심인재 채용 인턴 프로젝트
+            </p>
+            
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-10 tracking-tight whitespace-nowrap">
+                AI를 활용한 White Balance 알고리즘 개선
+            </h1>
+            <p class="text-slate-400 text-sm md:text-lg font-medium italic mb-10 tracking-wide max-w-3xl mx-auto leading-snug">
+                Adaptive Auto White Balance using DBSCAN Clustering
+            </p>
+            
+            <div class="flex justify-center items-center gap-4 md:gap-6">
+                <span class="text-slate-400 text-xs md:text-base font-light tracking-wide">
+                    DeviceSW개발1팀
+                </span>
+                
+                <span class="w-px h-3 bg-slate-700"></span>
+                
+                <span class="text-slate-400 text-xs md:text-base font-medium tracking-wider">
+                    김지수 인턴
+                </span>
+            </div>
+            
+            <div class="w-10 h-1 bg-[#f37321] mx-auto mt-12 opacity-80"></div>
+        </div>
+    </header>   
+
+    <main class="py-20 space-y-32">
+
+        <section class="content-section mb-20">
+            <div class="relative w-full aspect-video fig-box overflow-hidden group select-none cursor-ew-resize" id="comparison-slider">
+                <div class="absolute inset-0">
+                <img src="dbscan_on_narrow_3lux.png" 
+                    <span class="absolute bottom-4 right-4 bg-[#f37321] text-white px-3 py-1 text-xs rounded shadow-md">DBSCAN 제안 기</span>
+                </div>
+        
+                <div class="absolute inset-0 w-1/2 overflow-hidden border-r-2 border-white shadow-2xl" id="slider-resize">
+                <img src="dbscan_off_narrow_3lux.png" 
+                    <span class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 text-xs rounded backdrop-blur-sm">기존 프레임 맵 방식</span>
+                </div>
+        
+                <div class="absolute inset-y-0 left-1/2 w-1 bg-white flex items-center justify-center" id="slider-handle">
+                    <div class="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center group-active:scale-90 transition-transform">
+                        <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l-4 4m0 0l4 4m-4-4h16m-4-4l4 4m0 0l-4 4" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div id="click-notice" class="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none transition-opacity duration-300">
+                    <p class="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg">클릭하여 드래그하세요</p>
+                </div>
+            </div>
+            <p class="text-center text-sm text-slate-400 mt-4 italic">이미지를 꾹 누른 채 좌우로 움직여 성능 차이를 확인해 보세요.</p>
+        </section>
+        
+        <script>
+            const slider = document.getElementById('comparison-slider');
+            const resizeImgContainer = document.getElementById('slider-resize');
+            const afterImg = document.getElementById('after-img');
+            const handle = document.getElementById('slider-handle');
+            const notice = document.getElementById('click-notice');
+        
+            let isDragging = false;
+        
+            // 슬라이더 이미지 너비 동기화 함수
+            const updateImageWidth = () => {
+                afterImg.style.width = slider.offsetWidth + 'px';
+            };
+            window.addEventListener('resize', updateImageWidth);
+            updateImageWidth();
+        
+            const startDragging = () => { 
+                isDragging = true; 
+                notice.style.opacity = '0';
+            };
+            const stopDragging = () => { isDragging = false; };
+        
+            const onMove = (e) => {
+                if (!isDragging) return; // 클릭 중이 아니면 리턴
+        
+                const x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const rect = slider.getBoundingClientRect();
+                let position = ((x - rect.left) / rect.width) * 100;
+        
+                // 범위 제한 (0% ~ 100%)
+                position = Math.max(0, Math.min(position, 100));
+        
+                resizeImgContainer.style.width = `${position}%`;
+                handle.style.left = `${position}%`;
+            };
+        
+            // 마우스 이벤트
+            slider.addEventListener('mousedown', startDragging);
+            window.addEventListener('mouseup', stopDragging);
+            window.addEventListener('mousemove', onMove);
+        
+            // 터치 이벤트 (모바일 대응)
+            slider.addEventListener('touchstart', startDragging);
+            window.addEventListener('touchend', stopDragging);
+            window.addEventListener('touchmove', onMove);
+        </script>
+        
+        <style>
+            /* 슬라이더 내 After 이미지 너비 고정을 위한 스타일 */
+            #slider-resize img {
+                width: 900px; /* .content-section의 max-width와 동일하게 설정 */
+            }
+            @media (max-width: 900px) {
+                #slider-resize img {
+                    width: 100vw;
+                }
+            }
+        </style>
+
+        <section class="content-section">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-2 h-8 bg-hanwha"></div>
+                <h3 class="text-2xl font-bold text-slate-900">Introduction & Problem Statement</h3>
+            </div>
+            <div class="space-y-6 text-lg text-justify text-slate-700">
+                <p>
+                    기존 자동 화이트밸런스(Auto White Balance, AWB) 알고리즘은 촬영 장면의 색온도를 추정하여 RGB 게인을 조정하는 영상 신호 처리의 핵심 모듈입니다. 임베디드 환경에서는 안정성을 위해 조명 색도 공간 내 동작 허용 범위를 제한하는 <strong>프레임 맵(Frame Map)</strong> 방식을 주로 사용합니다.
+                </p>
+                <div class="highlight-accent p-8 my-10 rounded-r-lg">
+                    <p class="italic">
+                        "프레임 맵은 안정성이 높지만, 넓게 설정할 경우 <strong>색 번짐(color casting)</strong>이 발생하고 좁게 설정할 경우 유효한 조명 정보가 폐기되어 복잡한 조명 환경에서 WB 동작이 경직되는 트레이드오프(Trade-off)가 존재합니다."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-2 h-8 bg-hanwha"></div>
+                <h3 class="text-2xl font-bold text-slate-900">Proposed Method: DBSCAN Clustering</h3>
+            </div>
+            <div class="space-y-6 text-lg text-justify text-slate-700">
+                <p>
+                    본 프로젝트에서는 프레임 맵을 확장하지 않으면서도 외부(out-of-map) 정보를 활용하기 위해 <strong>비지도 학습 기반 DBSCAN 밀도 분석</strong>을 도입했습니다. 이를 통해 파편화된 데이터 사이에서 유효 클러스터만을 자동으로 선별하여 RGB 게인 계산에 반영합니다.
+                </p>
+                                <p>
+                    이는 임베디드 비전 시스템에서 머신러닝 기반 <strong>이상치 제거(Outlier Rejection)</strong>의 실용적 가능성을 증명하며, 기존 시스템의 안정성을 해치지 않으면서도 유연한 대응을 가능케 합니다.
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-2 h-8 bg-hanwha"></div>
+                <h3 class="text-2xl font-bold text-slate-900">Experimental Results</h3>
+            </div>
+            <div class="fig-box p-8 bg-white">
+                <div class="aspect-video w-full flex items-center justify-center border border-slate-100 rounded bg-slate-50 text-slate-400">
+                    <p class="font-medium">[Before vs After 화질 비교 피규어]</p>
+                </div>
+                <p class="mt-6 text-sm text-center text-slate-500 font-medium">
+                    그림 1. 기존 프레임 맵 방식과 제안된 DBSCAN 기반 방식의 성능 비교
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl border border-slate-200">
+                    <h4 class="text-slate-400 font-bold mb-4 uppercase tracking-tighter">University: Research</h4>
+                    <p class="text-sm">문제 정의부터 시작하여 <strong>방법론의 Novelty</strong>에 집중합니다. 정량적 분석과 논리적 설득을 통해 연구의 가치를 창출하는 과정입니다.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border-t-4 border-t-hanwha shadow-md">
+                    <h4 class="text-hanwha font-bold mb-4 uppercase tracking-tighter">Industry: Development</h4>
+                    <p class="text-sm"><strong>리소스 제약 상황</strong> 내 안정적 작동과 압도적 정성 성능이 최우선입니다. Conflict를 해결하며 효율적인 구조를 설계하는 가치 전유의 과정입니다.</p>
+                </div>
+            </div>
+            <p class="mt-8 text-center font-bold text-slate-800 italic">"연구의 가치 창출과 개발의 가치 전유를 동시에 실현하는 연구개발을 지향합니다."</p>
+        </section>
+
+        <section class="content-section">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-2 h-8 bg-slate-400"></div>
+                <h3 class="text-2xl font-bold text-slate-900">Limitations & Future Work</h3>
+            </div>
+            <div class="highlight-warning p-8 rounded-r-lg">
+                <p class="text-slate-700">
+                    고해상도 이미지 처리 시 발생하는 <strong>연산 오버헤드</strong>를 극복하기 위해 랜덤 샘플링과 같은 확률적 접근(Stochastic sampling) 도입을 검토 중입니다. 궁극적으로는 단일 화이트밸런스 결정을 넘어선 로컬 WB 제어를 위해 SoC 하드웨어 가속기 최적화 연구가 병행되어야 합니다.
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section bg-slate-900 py-20 px-10 rounded-3xl text-white">
+            <h3 class="text-3xl font-bold mb-16 text-center">Career Vision: <span class="text-hanwha">End-to-End Expert</span></h3>
+            <div class="grid md:grid-cols-3 gap-6 relative">
+                <div class="step-card bg-slate-800 p-8 rounded-xl border-b-4 border-hanwha">
+                    <span class="text-hanwha font-bold">Step 01. Junior</span>
+                    <h4 class="text-xl font-bold mt-2 mb-4">3년 후: 마스터</h4>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• 기존 자사 화질 프로세스 마스터</li>
+                        <li>• SoC 최적화 AI 모델 프로토타입 적용</li>
+                    </ul>
+                </div>
+                <div class="step-card bg-slate-800 p-8 rounded-xl border-b-4 border-hanwha md:-mt-8">
+                    <span class="text-hanwha font-bold">Step 02. Middle</span>
+                    <h4 class="text-xl font-bold mt-2 mb-4">5~7년 후: 설계자</h4>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Hw/Sw Codesign 전문가</li>
+                        <li>• AI 알고리즘 고려 SoC 아키텍처 동시 설계</li>
+                    </ul>
+                </div>
+                <div class="step-card bg-slate-800 p-8 rounded-xl border-b-4 border-hanwha md:-mt-16">
+                    <span class="text-hanwha font-bold">Step 03. Senior</span>
+                    <h4 class="text-xl font-bold mt-2 mb-4">10년 후: 리더</h4>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• End-to-End 영상 솔루션 프로젝트 리딩</li>
+                        <li>• 거시적 로드맵 및 방향성 제시</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white py-16 border-t border-slate-200">
+        <div class="content-section flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm text-slate-400">
+                <p>© 2026 Kim Ji-soo. All Rights Reserved.</p>
+                <p>Based on Hanwha Vision Identity System</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="w-8 h-8 bg-hanwha rounded-sm"></div>
+                <div class="w-8 h-8 bg-hanwha-70 rounded-sm"></div>
+                <div class="w-8 h-8 bg-slate-200 rounded-sm"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
