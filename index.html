@@ -193,7 +193,7 @@
                     본 논문에서는 기존 프레임 맵(Frame Map) 기반 AWB 방식의 한계를 해결하기 위해, 프레임 맵을 필요 이상으로 확장하지 않으면서도 프레임 외부(out-of-map) 패치 정보를 효과적으로 활용할 수 있는 <strong>머신러닝 기반 AWB 방법</strong>을 제안한다. 제안 기법은 <strong>DBSCAN 밀도 분석</strong>을 통해 프레임 외부 데이터에서 유효 클러스터와 신뢰 가능한 패치만을 자동으로 선별하여 RGB 게인 계산에 반영함으로써, 기존 프레임 맵의 안정성을 그대로 유지하면서도 다양한 조명 변화에 보다 유연하게 대응할 수 있다.
                 </p>
                 <p>
-                    또한 본 접근법은 임베디드 비전 시스템에서 머신러닝 기반 <strong>이상치 제거(outlier rejection)</strong>의 실용적 적용 가능성을 보여주며, 향후 데이터 기반 화이트밸런스 알고리즘으로의 확장성을 붷받침한다.
+                    또한 본 접근법은 임베디드 비전 시스템에서 머신러닝 기반 <strong>이상치 제거(outlier rejection)</strong>의 실용적 적용 가능성을 보여주며, 향후 데이터 기반 화이트밸런스 알고리즘으로의 확장성을 뒷받침한다.
                 </p>
             </div>
         </section>
@@ -221,6 +221,129 @@
             <div class="space-y-6 text-lg text-justify text-slate-700">
                 <p>
                     예상되는 한계점으로는 더 높은 해상도 이미지 처리에서 발생할 수 있는 <strong>처리 지연</strong>이 있으며, 이를 완화하기 위해 랜덤 샘플링과 같은 확률적 접근(stochastic sampling)이 유용할 수 있다. 또한 단일 대표값으로 전체 이미지의 화이트밸런스를 결정하는 구조적 한계도 여전히 존재한다. 따라서 보다 대규모 데이터를 효율적으로 처리하기 위해서는 <strong>임베디드 SoC의 연산 성능 향상</strong>이 향후 필수적으로 요구된다.
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-2 h-8 bg-hanwha"></div>
+                <h3 class="text-2xl font-bold text-slate-900">Appendix</h3>
+            </div>
+            
+            <!-- 결과 분석 -->
+            <div class="mb-12">
+                <h4 class="text-xl font-semibold text-slate-800 mb-6">A. 결과 분석</h4>
+                
+                <div class="space-y-8">
+                    <!-- 통계 테이블 -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse text-sm">
+                            <thead>
+                                <tr class="border-t-2 border-b-2 border-slate-800">
+                                    <th class="py-3 px-4 text-left font-semibold">Channel</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Metric</th>
+                                    <th class="py-3 px-4 text-center font-semibold">DBSCAN OFF</th>
+                                    <th class="py-3 px-4 text-center font-semibold">DBSCAN ON (Ours)</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Change (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-mono text-xs">
+                                <tr class="border-t border-slate-300">
+                                    <td class="py-2 px-4 font-sans" rowspan="3">Red</td>
+                                    <td class="py-2 px-4 text-center font-sans">Mean (μ)</td>
+                                    <td class="py-2 px-4 text-center">103.39</td>
+                                    <td class="py-2 px-4 text-center">97.60</td>
+                                    <td class="py-2 px-4 text-center text-red-600">-5.60</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 text-center font-sans">Std Dev (σ)</td>
+                                    <td class="py-2 px-4 text-center">65.47</td>
+                                    <td class="py-2 px-4 text-center">63.04</td>
+                                    <td class="py-2 px-4 text-center text-red-600">-3.71</td>
+                                </tr>
+                                <tr class="border-b border-slate-200">
+                                    <td class="py-2 px-4 text-center font-sans">Median</td>
+                                    <td class="py-2 px-4 text-center">89.00</td>
+                                    <td class="py-2 px-4 text-center">81.00</td>
+                                    <td class="py-2 px-4 text-center text-red-600">-8.99</td>
+                                </tr>
+                                <tr class="border-t border-slate-300">
+                                    <td class="py-2 px-4 font-sans" rowspan="3">Blue</td>
+                                    <td class="py-2 px-4 text-center font-sans">Mean (μ)</td>
+                                    <td class="py-2 px-4 text-center">56.92</td>
+                                    <td class="py-2 px-4 text-center">74.70</td>
+                                    <td class="py-2 px-4 text-center text-blue-600">+31.24</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 text-center font-sans">Std Dev (σ)</td>
+                                    <td class="py-2 px-4 text-center">51.60</td>
+                                    <td class="py-2 px-4 text-center">51.44</td>
+                                    <td class="py-2 px-4 text-center text-slate-600">-0.32</td>
+                                </tr>
+                                <tr class="border-b border-slate-200">
+                                    <td class="py-2 px-4 text-center font-sans">Median</td>
+                                    <td class="py-2 px-4 text-center">50.00</td>
+                                    <td class="py-2 px-4 text-center">70.00</td>
+                                    <td class="py-2 px-4 text-center text-blue-600">+40.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="border-t-2 border-slate-800">
+                                    <td class="py-2 px-4 font-sans" colspan="2"><strong>Overall Brightness</strong></td>
+                                    <td class="py-2 px-4 text-center">125.25</td>
+                                    <td class="py-2 px-4 text-center">127.66</td>
+                                    <td class="py-2 px-4 text-center text-green-600">+1.92</td>
+                                </tr>
+                                <tr class="border-b-2 border-slate-800">
+                                    <td class="py-2 px-4 font-sans" colspan="2"><strong>R/B Ratio</strong></td>
+                                    <td class="py-2 px-4 text-center">1.816</td>
+                                    <td class="py-2 px-4 text-center">1.307</td>
+                                    <td class="py-2 px-4 text-center text-red-600">-28.03</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <p class="mt-6 text-sm text-center text-slate-500 font-medium">
+                            Table 1. RB 채널별 통계 분석 결과
+                        </p>
+                    </div>
+
+                    <!-- 논문 형식 본문 -->
+                    <div class="space-y-6 text-lg text-justify text-slate-700 leading-relaxed">
+                        <p>
+                            제안된 DBSCAN 기반 AWB 알고리즘이 색온도 보정에 미치는 영향을 분석하기 위해 RB 채널별 통계 분석을 수행하였다.
+                            각 채널의 픽셀 값 범위는 0-255이며 저조도 환경(3lux)에서 촬영된 동일 장면에 대해 
+                            기존 방식(DBSCAN OFF)과 제안 방식(DBSCAN ON)을 비교하였다.
+                        </p>
+                        
+                        <p>
+                            Table 1.에 나타난 바와 같이 Red 채널 평균값(μ)은 5.60% 감소하였고, 
+                            Blue 채널은 31.24% 증가하였다. 
+                            표준편차(σ)는 Red 채널에서 3.71%, Blue 채널에서 0.32% 감소하였다.
+                            표준편차가 감소했다는 것은 색상 분포가 더 균일해지고 안정적으로 보정되었음을 의미한다.
+                        </p>
+
+                        <p>
+                            R/B 비율은 28.03% 감소하였으며, 전체 밝기는 1.92% 증가하였다. 
+                            이는 색온도 보정 시 밝기 정보가 유지되면서 Blue 성분이 효과적으로 보강되었음을 나타낸다.
+                        </p>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- 시각화 툴 -->
+            <div class="mb-12">
+                <h4 class="text-xl font-semibold text-slate-800 mb-4">B. 시각화 툴 시연</h4>
+                <div class="aspect-video w-full bg-black rounded-lg overflow-hidden">
+                    <video controls class="w-full h-full">
+                        <source src="tool.mp4" type="video/mp4">
+                        브라우저가 비디오를 지원하지 않습니다.
+                    </video>
+                </div>
+                <p class="mt-6 text-sm text-center text-slate-500 font-medium">
+                    비디오 1. 클러스터링 결과 시각화 툴 데모
                 </p>
             </div>
         </section>
