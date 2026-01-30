@@ -87,7 +87,7 @@
                 <p class="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg">클릭하여 드래그하세요</p>
             </div>
         </div>
-        <p class="text-center text-sm text-slate-400 mt-4 italic">그림 1. 기존 프레임 맵 방식과 제안된 DBSCAN 기반 방식의 성능 비교</p>
+        <p class="text-center text-sm text-slate-400 mt-4">그림 1. 기존 프레임 맵 방식과 제안된 DBSCAN 기반 방식의 성능 비교</p>
     </section>
 <script>
 // 그림 1 슬라이더 드래그 동작
@@ -132,7 +132,7 @@ window.addEventListener('touchmove', onMove);
                 <p>
                     기존 자동 화이트밸런스(Auto White Balance, AWB) 알고리즘은 촬영 장면의 색온도(kelvin)을 추정하여 RGB 게인을 조정하는 영상 신호 처리 모듈이다. 임베디드 AWB 시스템은 조명 색온도(chromaticity) 공간에서 화이트밸런스가 동작할 수 있는 허용 범위를 정의한 <strong>프레임 맵(Frame Map)</strong>을 사용한다.
                         <p>
-                            다음은 Spectra Light Incand A 2856K 광원 환경에서 각기 다른 방법으로 WB를 적용한 결과 이미지와 분석 결과이다. 정량적·정성적 평가 모두에서 <strong>DBSCAN 기반 클러스터링만 적용한 경우</strong> WB error와 Color error가 DBSCAN OFF (ATW) 대비 전반적으로 더 낮아, 가장 우수한 성능을 보임을 확인할 수 있다. 또한 <strong>DBSCAN ON (weight 0.5)</strong> 결과는 클러스터링 결과와 프레임 맵 간의 가중치를 조절함으로써 화이트 밸런스 보정 정도를 유연하게 제어할 수 있음을 보여준다.
+                            다음은 Spectra Light Incand A 2856K 광원 환경에서 각기 다른 방법으로 WB를 적용한 결과 이미지와 분석 결과이다. 정량적·정성적 평가 모두에서 <strong>DBSCAN 기반 클러스터링만 적용한 경우</strong> WB error와 Color error가 DBSCAN OFF (ATW) 대비 전반적으로 더 낮아, 가장 우수한 성능을 보임을 확인할 수 있다. 또한 <strong>DBSCAN ON</strong> 결과는 클러스터링 결과와 프레임 맵 간의 가중치를 조절함으로써 화이트 밸런스 보정 정도를 유연하게 제어할 수 있음을 보여준다.
                         </p>
                 </p>
             </div>
@@ -150,7 +150,7 @@ window.addEventListener('touchmove', onMove);
             <div class="fig-box p-8 bg-white mb-2">
                 <img src="figure2.png" alt="DBSCAN 방법론 설명" class="w-3/4 mx-auto h-auto rounded">
             </div>
-            <p class="text-center text-sm text-slate-400 mt-2 mb-12 italic">그림 2. DBSCAN 클러스터링 기반 AWB 방법론</p>
+            <p class="text-center text-sm text-slate-400 mt-2 mb-12">그림 2. DBSCAN 클러스터링 기반 AWB 방법론</p>
 
             <div class="space-y-6 text-lg text-justify text-slate-700">
                 <p>
@@ -181,11 +181,11 @@ window.addEventListener('touchmove', onMove);
                                                 </div>
                                                 <div class="flex flex-col items-center">
                                                     <img src="exp/dbscan50per.png" alt="DBSCAN+프레임맵 예시" class="rounded mb-2 w-full h-auto object-cover md:max-w-xs">
-                                                    <span class="text-xs text-slate-600 mt-1">Indoor(50%) + DBSCAN ON(50%)</span>
+                                                    <span class="text-xs text-slate-600 mt-1">Indoor + DBSCAN ON(50%)</span>
                                                 </div>
                                                 <div class="flex flex-col items-center">
                                                     <img src="exp/dbscan_100per.png" alt="DBSCAN만 예시" class="rounded mb-2 w-full h-auto object-cover md:max-w-xs">
-                                                    <span class="text-xs text-slate-600 mt-1">Indoor(0%) + DBSCAN ON(100%)</span>
+                                                    <span class="text-xs text-slate-600 mt-1">Indoor + DBSCAN ON(100%)</span>
                                                 </div>
                                             </div>
                                             <p class="text-center text-sm text-slate-500 mt-4">그림 3. 각 방법별 결과 </p>
@@ -204,11 +204,11 @@ window.addEventListener('touchmove', onMove);
                                                     </div>
                                                     <div class="flex flex-col items-center">
                                                         <img src="imatest/dbscan50per_colorerror.png" alt="Imatest DBSCAN+프레임맵 예시" class="rounded mb-2 w-full h-auto object-cover md:max-w-xs">
-                                                        <span class="text-xs text-slate-600 mt-1">Indoor(50%) + DBSCAN ON(50%)</span>
+                                                        <span class="text-xs text-slate-600 mt-1">Indoor + DBSCAN ON(50%)</span>
                                                     </div>
                                                     <div class="flex flex-col items-center">
                                                         <img src="imatest/dbscan_100per_colorerror.png" alt="Imatest DBSCAN만 예시" class="rounded mb-2 w-full h-auto object-cover md:max-w-xs">
-                                                        <span class="text-xs text-slate-600 mt-1">Indoor(0%) + DBSCAN ON(100%)</span>
+                                                        <span class="text-xs text-slate-600 mt-1">Indoor + DBSCAN ON(100%)</span>
                                                     </div>
                                                 </div>
                                                 <p class="text-center text-sm text-slate-500 mt-4">그림 4. Imatest 결과 이미지</p>
@@ -235,14 +235,14 @@ window.addEventListener('touchmove', onMove);
                                         <td class="py-2 px-4 text-center text-sm"><u>2.8</u></td>
                                     </tr>
                                     <tr>
-                                        <td class="py-2 px-4 font-sans text-sm">Indoor(50%) + DBSCAN ON(50%)</td>
+                                        <td class="py-2 px-4 font-sans text-sm">Indoor + DBSCAN ON(50%)</td>
                                         <td class="py-2 px-4 text-center text-sm">36.8</td>
                                         <td class="py-2 px-4 text-center text-sm">22.4</td>
                                     </tr>
                                     <tr class="border-b border-slate-200">
-                                        <td class="py-2 px-4 font-sans text-sm">Indoor(0%) + DBSCAN ON(100%)</td>
-                                        <td class="py-2 px-4 text-center text-sm font-extrabold text-black"><strong>20.8</strong></td>
-                                        <td class="py-2 px-4 text-center text-sm font-extrabold text-black"><strong>2.4</strong></td>
+                                        <td class="py-2 px-4 font-sans text-sm">Indoor + DBSCAN ON(100%)</td>
+                                        <td class="py-2 px-4 text-center text-sm font-extrabold text-blue-600"><strong>20.8</strong></td>
+                                        <td class="py-2 px-4 text-center text-sm font-extrabold text-blue-600"><strong>2.4</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -251,7 +251,7 @@ window.addEventListener('touchmove', onMove);
                     </div>
                     <div class="space-y-6 text-lg text-justify text-slate-700">
                         <p>
-                            다음은 A광원에 대해 각기 다른 방법으로 WB를 적용한 결과 이미지와 분석 결과이다. 정량적, 정성적 평가 모두에서 DBSCAN 기반 클러스터링만 적용한 경우 WB error와 Color error가 자사 방법인 ATW Mode 대비 전반적으로 더 낮아, 우수한 성능을 보임을 확인할 수 있다. 또한 기존 Frame map 기반의 WBDBSCAN 결과는 클러스터링 결과와 프레임 맵 간의 가중치를 조절함으로써 화이트 밸런스 보정 정도를 유연하게 제어할 수 있음을 보여준다.
+                            다음은 A광원에 대해 각기 다른 방법으로 WB를 적용한 결과 이미지와 분석 결과이다. 정성적 평가에서 DBSCAN 기반 클러스터링만 적용한 경우 WB error와 Color error가 자사 방법인 ATW Mode 대비 전반적으로 더 낮아, 우수한 성능을 보임을 확인할 수 있다. 또한 기존 Frame map 기반의 DBSCAN 결과는 클러스터링 결과와 프레임 맵 간의 가중치를 조절함으로써 화이트 밸런스 보정 정도를 유연하게 제어할 수 있음을 보여준다.
                         </p>
                     </div>
                 </section>
@@ -289,7 +289,7 @@ window.addEventListener('touchmove', onMove);
             
             <!-- 결과 분석 -->
             <div class="mb-12">
-                <h4 class="text-xl font-semibold text-slate-800 mb-6">A. 결과 분석</h4>
+                <h4 class="text-xl font-semibold text-slate-800 mb-6">A. 정성적 실내 환경(암실) 결과 분석</h4>
                 
                 <div class="space-y-8">
                     
@@ -318,39 +318,39 @@ window.addEventListener('touchmove', onMove);
                                 <tr class="border-t border-slate-300">
                                     <td class="py-2 px-4 font-sans" rowspan="3">Red</td>
                                     <td class="py-2 px-4 text-center font-sans">Mean (μ)</td>
-                                    <td class="py-2 px-4 text-center">156.1</td>
-                                    <td class="py-2 px-4 text-center">147.4</td>
+                                    <td class="py-2 px-4 text-center">255.0</td>
+                                    <td class="py-2 px-4 text-center">240.8</td>
                                     <td class="py-2 px-4 text-center text-red-600">-5.60</td>
                                 </tr>
                                 <tr>
                                     <td class="py-2 px-4 text-center font-sans">Std Dev (σ)</td>
-                                    <td class="py-2 px-4 text-center">98.9</td>
-                                    <td class="py-2 px-4 text-center">95.2</td>
+                                    <td class="py-2 px-4 text-center">161.6</td>
+                                    <td class="py-2 px-4 text-center">155.5</td>
                                     <td class="py-2 px-4 text-center text-red-600">-3.71</td>
                                 </tr>
                                 <tr class="border-b border-slate-200">
                                     <td class="py-2 px-4 text-center font-sans">Median</td>
-                                    <td class="py-2 px-4 text-center">134.4</td>
-                                    <td class="py-2 px-4 text-center">122.3</td>
+                                    <td class="py-2 px-4 text-center">219.5</td>
+                                    <td class="py-2 px-4 text-center">199.8</td>
                                     <td class="py-2 px-4 text-center text-red-600">-8.99</td>
                                 </tr>
                                 <tr class="border-t border-slate-300">
                                     <td class="py-2 px-4 font-sans" rowspan="3">Blue</td>
                                     <td class="py-2 px-4 text-center font-sans">Mean (μ)</td>
-                                    <td class="py-2 px-4 text-center">86.0</td>
-                                    <td class="py-2 px-4 text-center">112.8</td>
+                                    <td class="py-2 px-4 text-center">140.5</td>
+                                    <td class="py-2 px-4 text-center">184.3</td>
                                     <td class="py-2 px-4 text-center text-blue-600">+31.24</td>
                                 </tr>
                                 <tr>
                                     <td class="py-2 px-4 text-center font-sans">Std Dev (σ)</td>
-                                    <td class="py-2 px-4 text-center">77.9</td>
-                                    <td class="py-2 px-4 text-center">77.7</td>
+                                    <td class="py-2 px-4 text-center">127.3</td>
+                                    <td class="py-2 px-4 text-center">127.0</td>
                                     <td class="py-2 px-4 text-center text-slate-600">-0.32</td>
                                 </tr>
                                 <tr class="border-b border-slate-200">
                                     <td class="py-2 px-4 text-center font-sans">Median</td>
-                                    <td class="py-2 px-4 text-center">75.5</td>
-                                    <td class="py-2 px-4 text-center">105.7</td>
+                                    <td class="py-2 px-4 text-center">123.3</td>
+                                    <td class="py-2 px-4 text-center">172.7</td>
                                     <td class="py-2 px-4 text-center text-blue-600">+40.00</td>
                                 </tr>
                             </tbody>
@@ -371,7 +371,7 @@ window.addEventListener('touchmove', onMove);
                     <!-- 논문 형식 본문 -->
                     <div class="space-y-6 text-lg text-justify text-slate-700 leading-relaxed mt-10">
                         <p>
-                            제안된 DBSCAN 기반 AWB 알고리즘이 색온도 보정에 미치는 영향을 분석하기 위해 RB 채널별 통계 분석을 수행하였다.
+                            제안된 DBSCAN 기반 AWB 알고리즘이 색온도 보정에 미치는 영향을 분석하기 위해 Spectra Light Incand A 2856K 광원 환경에서 RB 채널별 통계 분석을 수행하였다.
                             각 채널의 픽셀 값 범위는 0-255이며 저조도 환경(3lux)에서 촬영된 동일 장면의 중성색 패치에 대해 대해 
                             기존 방식(DBSCAN OFF)과 제안 방식(DBSCAN ON)을 비교하였다.
                         </p>
