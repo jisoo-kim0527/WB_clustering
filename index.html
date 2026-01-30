@@ -65,6 +65,64 @@
 
     <main class="py-20 space-y-32">
 
+    <!-- 메인 비교 슬라이더 이미지 (그림 1) -->
+    <section class="content-section mb-20">
+        <div class="relative w-full aspect-video overflow-hidden group select-none cursor-ew-resize" id="comparison-slider">
+            <div class="absolute inset-0">
+                <img src="After.png" class="w-full h-full object-cover" alt="Before">
+            </div>
+            <span id="right-label" class="absolute bottom-4 right-4 bg-[#f37321] text-white px-3 py-1 text-xs rounded shadow-md pointer-events-none z-10 transition-opacity duration-200">DBSCAN 제안 기반 방식</span>
+            <div class="absolute inset-0 w-1/2 overflow-hidden border-r-2 border-white shadow-2xl" id="slider-resize">
+                <img src="Before.png" id="after-img" class="absolute inset-0 h-full object-cover max-w-none" alt="After">
+            </div>
+            <span id="left-label" class="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 text-xs rounded backdrop-blur-sm pointer-events-none z-10 transition-opacity duration-200">기존 프레임 맵 방식</span>
+            <div class="absolute inset-y-0 left-1/2 w-1 bg-white flex items-center justify-center" id="slider-handle">
+                <div class="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center group-active:scale-90 transition-transform">
+                    <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l-4 4m0 0l4 4m-4-4h16m-4-4l4 4m0 0l-4 4" />
+                    </svg>
+                </div>
+            </div>
+            <div id="click-notice" class="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none transition-opacity duration-300">
+                <p class="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg">클릭하여 드래그하세요</p>
+            </div>
+        </div>
+        <p class="text-center text-sm text-slate-400 mt-4 italic">그림 1. 기존 프레임 맵 방식과 제안된 DBSCAN 기반 방식의 성능 비교</p>
+    </section>
+<script>
+// 그림 1 슬라이더 드래그 동작
+const slider = document.getElementById('comparison-slider');
+const resizeImgContainer = document.getElementById('slider-resize');
+const afterImg = document.getElementById('after-img');
+const handle = document.getElementById('slider-handle');
+const notice = document.getElementById('click-notice');
+const leftLabel = document.getElementById('left-label');
+const rightLabel = document.getElementById('right-label');
+let isDragging = false;
+const updateImageWidth = () => { afterImg.style.width = slider.offsetWidth + 'px'; };
+window.addEventListener('resize', updateImageWidth);
+updateImageWidth();
+const startDragging = () => { isDragging = true; notice.style.opacity = '0'; };
+const stopDragging = () => { isDragging = false; };
+const onMove = (e) => {
+    if (!isDragging) return;
+    const x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    const rect = slider.getBoundingClientRect();
+    let position = ((x - rect.left) / rect.width) * 100;
+    position = Math.max(0, Math.min(position, 100));
+    resizeImgContainer.style.width = `${position}%`;
+    handle.style.left = `${position}%`;
+    leftLabel.style.opacity = position > 10 ? '1' : '0';
+    rightLabel.style.opacity = position < 90 ? '1' : '0';
+};
+slider.addEventListener('mousedown', startDragging);
+window.addEventListener('mouseup', stopDragging);
+window.addEventListener('mousemove', onMove);
+slider.addEventListener('touchstart', startDragging);
+window.addEventListener('touchend', stopDragging);
+window.addEventListener('touchmove', onMove);
+</script>
+
         <section class="content-section">
             <div class="flex items-center gap-3 mb-8">
                 <div class="w-2 h-8 bg-hanwha"></div>
